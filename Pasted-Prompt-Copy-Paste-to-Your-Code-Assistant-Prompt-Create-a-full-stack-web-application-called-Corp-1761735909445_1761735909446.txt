@@ -1,0 +1,192 @@
+Prompt (Copy-Paste to Your Code Assistant)
+Prompt:
+ Create a full-stack web application called "Corporate Contact Finder" using Python (Flask) for the backend and HTML, CSS, JavaScript for the frontend.
+🔧 Functional Requirements
+Input: a <textarea> where the user can paste multiple domains, one per line.
+
+
+On clicking Start Search, the backend should:
+
+
+Iterate through each domain.
+
+
+For each domain, perform hierarchical searches using custom search api and cx id with this ordered role list:
+
+ ["CEO","Founder","Co-Founder","Managing Director",
+ "CFO","Finance Head","Chief Financial Officer",
+ "CHRO","HR Head","HR Manager","HR Executive","Talent Acquisition","HR Business Partner",
+ "Marketing Head","Marketing Executive","SEO Executive","Link Builder","Digital Marketing Manager"]
+
+
+For every query, use:
+ site:linkedin.com/in ("<ROLE>") "<DOMAIN>"
+ via custom search API.
+
+
+When the first valid LinkedIn profile appears:
+
+
+Extract Name, Title, LinkedIn URL.
+
+
+Use Hunter.io Email Finder API with domain + full_name to get a verified email.
+
+
+Save the record:
+
+ domain | name | title | email | linkedin_url | matched_role
+
+
+Then stop searching other roles for that domain and move to the next one.
+
+
+If no email found for any role, mark “Not Found”.
+
+
+🖥️ Frontend
+Clean UI:
+
+
+Textbox (placeholder: Enter domains, one per line).
+
+
+Start Search / Stop Search buttons.
+
+
+Progress bar or “Processing domain X of Y”.
+
+
+Dynamic table for results.
+
+
+Download CSV button.
+
+
+Use modern responsive CSS (Tailwind or custom).
+
+
+Use Fetch API for AJAX calls to /search.
+
+
+⚙️ Backend (Flask)
+.env variables: custom search api, cx id:  HUNTER_KEY.
+
+
+Routes:
+
+
+/ → serve the HTML page.
+
+
+/search (POST) → receive domains array, process logic, return JSON results.
+
+
+Use async or threading for parallel domain handling.
+
+
+Include proper exception handling and logging.
+
+
+📦 Example JSON Response
+[
+  {
+    "domain": "factohr.com",
+    "name": "Sneha Patel",
+    "title": "HR Manager",
+    "email": "sneha.patel@factohr.com",
+    "linkedin": "https://linkedin.com/in/sneha-patel",
+    "matched_role": "HR Manager"
+  },
+  {
+    "domain": "keka.com",
+    "name": "Vijay Kumar",
+    "title": "CEO",
+    "email": "vijay@keka.com",
+    "linkedin": "https://linkedin.com/in/vijay-kumar",
+    "matched_role": "CEO"
+  }
+]
+
+📄 File Structure
+/project-root
+├── app.py
+├── templates/
+│   └── index.html
+├── static/
+│   ├── style.css
+│   └── script.js
+├── .env
+├── requirements.txt
+
+🧰 Libraries
+Flask, requests, pandas, python-dotenv, concurrent.futures
+
+
+Frontend: vanilla JS (Fetch API) + Tailwind CSS (optional)
+
+
+💾 Output
+Show table of results in browser.
+
+
+“Download CSV” exports all results.
+
+
+🧪 Additional Features
+Skip already-processed domains (cache).
+
+
+Display error message for invalid domain inputs.
+
+
+Allow optional “Max domains per run” limit.
+
+
+Auto-scroll console log showing which hierarchy level was found.
+
+
+🧩 Example Run
+Input:
+factohr.com
+darwinbox.com
+greythr.com
+
+Result:
+Finds HR Manager at factohr.com
+
+
+Finds CEO at darwinbox.com (no HR found)
+
+
+Finds SEO Executive at greythr.com (no HR or C-suite found)
+
+
+Stops after one verified profile per domain.
+
+
+   Custom search api : AIzaSyCxIQwwr4JQW-Y1y42isdE2ZcSMy21fLrk
+AIzaSyAfOi792uFqYqSQz3EtBlAeNVykse8MvE4
+AIzaSyAu3wfyVMCI37N85gsHMoZb1U3idd8RqhI
+AIzaSyCMrDfEbnSlqHaAx7yEI2xDzQpq4oUsYwY
+AIzaSyB-uctHJNkyg-SFbJV7Eon5pPiAntSZMFQ
+AIzaSyDwsqDP7ERjldQmba88b9oIgsx8XA58MmA
+AIzaSyCXTVh4iACIPN5jgyNzizXVynJOQWNidwg
+
+
+
+AIzaSyDrqjppcS6sf0JnGkxZNgCOqGs5DuunjJE
+AIzaSyDmaWIgHHIs4S4ENxUnyFnvMZBvgfdx4Xg
+AIzaSyB1fm6CXclyb-p30AFf9dRIrdwhYE1Ek1w
+AIzaSyDvB6IaM22AvaFBALAFrC-VOpUnITpo63E
+AIzaSyDvB6IaM22AvaFBALAFrC-VOpUnITpo63E
+AIzaSyDYIn10M6Syzbluvk0iwawL5UFBgrA37r8
+AIzaSyB2kbI5JKnuIyIIg6aF33-JanXItieyTi8
+
+
+Use all api key for not exceed the api rate limit.
+
+
+This is the cx id : d12e4247908634949
+
+Hunter api key : e5f04b045fdc8b40d3120f0f92f84b7222d9e46d
